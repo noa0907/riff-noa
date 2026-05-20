@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>大湾区绿色交通精英培养计划 · HTML多页讲解视频</title>
+  <style>
+    :root {
+      --bg: #f2f7f5;
+      --panel: rgba(255, 255, 255, 0.72);
+      --ink: #0a0f10;
+      --sub: #57656c;
+      --green: #5be0b8;
+      --green-2: #2ac39d;
+      --pink: #ff4fa2;
+      --pink-2: #ff89c6;
+      --line: rgba(45, 75, 77, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 10% 20%, #ffffff 0%, var(--bg) 40%, #e8efec 100%);
+      overflow: hidden;
+    }
+
+    .stage {
+      width: min(100vw, 177.78vh);
+      aspect-ratio: 16 / 9;
+      margin: auto;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 16px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 88% 15%, rgba(255, 79, 162, 0.25) 0 8%, transparent 16%),
+        radial-gradient(circle at 12% 85%, rgba(91, 224, 184, 0.20) 0 8%, transparent 16%),
+        linear-gradient(120deg, rgba(255,255,255,.92), rgba(240,248,245,.82));
+      box-shadow: 0 30px 80px rgba(0, 0, 0, .14);
+    }
+
+    .tech-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(to right, var(--line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+      pointer-events: none;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 2.4vw;
+      padding: 3.3vw;
+      opacity: 0;
+      transform: translateX(8%) scale(0.985);
+      transition: opacity .75s ease, transform .75s ease;
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .slide .badge,
+    .slide h1,
+    .slide .subtitle,
+    .slide .bullets li,
+    .slide .right > div {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    .slide.active .badge { animation: itemIn .45s ease .02s forwards; }
+    .slide.active h1 { animation: itemIn .5s ease .12s forwards; }
+    .slide.active .subtitle { animation: itemIn .5s ease .24s forwards; }
+    .slide.active .bullets li:nth-child(1) { animation: itemIn .46s ease .34s forwards; }
+    .slide.active .bullets li:nth-child(2) { animation: itemIn .46s ease .46s forwards; }
+    .slide.active .bullets li:nth-child(3) { animation: itemIn .46s ease .58s forwards; }
+    .slide.active .right > div { animation: itemIn .58s ease .3s forwards; }
+
+    .left { display: flex; flex-direction: column; justify-content: center; }
+
+    .badge {
+      display: inline-flex;
+      gap: .6em;
+      align-items: center;
+      width: fit-content;
+      font-size: .9vw;
+      padding: .45em .95em;
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(90deg, #111, #2d2d2d);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      margin-bottom: 1.1vw;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 3.1vw;
+      line-height: 1.12;
+      letter-spacing: .01em;
+    }
+
+    .subtitle {
+      margin-top: .9vw;
+      color: var(--sub);
+      font-size: 1.1vw;
+      line-height: 1.65;
+      max-width: 92%;
+    }
+
+    .bullets {
+      margin: 1.15vw 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: .6vw;
+    }
+
+    .bullets li {
+      font-size: 1.08vw;
+      line-height: 1.45;
+      display: flex;
+      align-items: baseline;
+      gap: .55em;
+    }
+
+    .dot {
+      width: .58em; height: .58em; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--pink));
+      box-shadow: 0 0 0 .28em rgba(91,224,184,.18);
+      flex: 0 0 auto;
+      transform: translateY(.08em);
+    }
+
+    .right {
+      position: relative;
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(10, 14, 18, .96), rgba(20, 28, 30, .90));
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.03), 0 20px 42px rgba(0,0,0,.24);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2vw;
+      isolation: isolate;
+    }
+
+    .right::before, .right::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(12px);
+      opacity: .8;
+      z-index: -1;
+    }
+
+    .right::before {
+      width: 20vw; height: 20vw;
+      background: radial-gradient(circle, rgba(91,224,184,.4), transparent 60%);
+      top: -8vw; left: -6vw;
+    }
+
+    .right::after {
+      width: 18vw; height: 18vw;
+      background: radial-gradient(circle, rgba(255,79,162,.35), transparent 60%);
+      bottom: -8vw; right: -6vw;
+    }
+
+    .big {
+      font-size: 6.4vw;
+      margin: 0;
+      line-height: .95;
+      letter-spacing: .02em;
+      background: linear-gradient(95deg, #fff, #9ff2d5 40%, #ff9fd0 85%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 40px rgba(91,224,184,.2);
+      font-weight: 800;
+    }
+
+    .mini {
+      margin-top: .7vw;
+      color: rgba(241,248,248,.9);
+      font-size: 1.2vw;
+      text-align: center;
+      letter-spacing: .04em;
+    }
+
+    .stats {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .9vw;
+    }
+
+    .card {
+      border-radius: 14px;
+      padding: .95vw 1vw;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.09);
+      color: #ecf7f6;
+      text-align: center;
+    }
+
+    .card b { font-size: 2.1vw; color: #9ff2d5; }
+    .card.pink b { color: #ff9fd0; }
+    .card span { display: block; margin-top: .35em; font-size: .95vw; opacity: .88; }
+
+    .slide.active .big {
+      animation: textShimmer 2s ease-in-out infinite alternate;
+    }
+
+    .slide.active .stats .card:nth-child(1) { animation: itemIn .45s ease .22s both; }
+    .slide.active .stats .card:nth-child(2) { animation: itemIn .45s ease .32s both; }
+    .slide.active .stats .card:nth-child(3) { animation: itemIn .45s ease .42s both; }
+    .slide.active .stats .card:nth-child(4) { animation: itemIn .45s ease .52s both; }
+    .slide.active .stats .card b { animation: pulseNum 1.9s ease-in-out infinite; }
+
+    .controls {
+      position: absolute;
+      left: 3.3vw;
+      right: 3.3vw;
+      bottom: 1.2vw;
+      display: flex;
+      gap: 1vw;
+      align-items: center;
+    }
+
+    .timeline {
+      flex: 1;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.12);
+      overflow: hidden;
+    }
+
+    .timeline span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--green-2), var(--pink));
+      transition: width .2s linear;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: .5vw .9vw;
+      font-size: .88vw;
+      background: rgba(20, 24, 25, .9);
+      color: #fff;
+      cursor: pointer;
+      min-width: 5.5vw;
+    }
+
+    .btn:hover { filter: brightness(1.08); }
+
+    .caption {
+      position: absolute;
+      right: 3.3vw;
+      top: 2.5vw;
+      color: #fff;
+      font-size: .9vw;
+      background: rgba(10, 14, 18, .66);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 999px;
+      padding: .35vw .8vw;
+      letter-spacing: .04em;
+    }
+
+    .subtitle-track {
+      position: absolute;
+      left: 3.3vw;
+      right: 3.3vw;
+      bottom: 4.9vw;
+      min-height: 2.2vw;
+      padding: .62vw 1vw;
+      border-radius: 10px;
+      background: rgba(8, 12, 16, .62);
+      border: 1px solid rgba(255, 255, 255, .16);
+      color: rgba(255,255,255,.50);
+      font-size: 1.05vw;
+      line-height: 1.5;
+      letter-spacing: .02em;
+      text-align: center;
+      backdrop-filter: blur(2px);
+    }
+
+    .subtitle-track span {
+      transition: color .12s linear, text-shadow .12s linear;
+      color: rgba(255,255,255,.42);
+    }
+
+    .subtitle-track span.on {
+      color: #fff;
+      text-shadow: 0 0 10px rgba(91,224,184,.55), 0 0 4px rgba(255,79,162,.45);
+    }
+
+    .autoplay-lock {
+      position: absolute; inset: 0;
+      display: none;
+      place-items: center;
+      background: rgba(8,10,12,.55);
+      backdrop-filter: blur(2px);
+      z-index: 20;
+    }
+
+    .autoplay-lock.show { display: grid; }
+
+    .lock-inner {
+      color: white;
+      text-align: center;
+      background: rgba(20,22,26,.86);
+      padding: 1.3vw 1.8vw;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    .lock-inner p { margin: 0 0 .75vw; font-size: 1vw; color: #dce7e7; }
+    .lock-inner button {
+      border: 0;
+      padding: .5vw 1.1vw;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--green-2), var(--pink));
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    @keyframes itemIn {
+      from { opacity: 0; transform: translateY(16px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes textShimmer {
+      0% { text-shadow: 0 0 6px rgba(91,224,184,.28), 0 0 0 rgba(255,79,162,.1); }
+      100% { text-shadow: 0 0 18px rgba(91,224,184,.55), 0 0 12px rgba(255,79,162,.35); }
+    }
+
+    @keyframes pulseNum {
+      0%, 100% { filter: brightness(1); transform: scale(1); }
+      50% { filter: brightness(1.22); transform: scale(1.05); }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage" id="stage">
+    <div class="tech-grid"></div>
+    <div class="caption" id="caption">01 / 06</div>
+
+    <section class="slide active">
+      <div class="left">
+        <div class="badge">TECH × GLOBAL SYNERGY 2026</div>
+        <h1>大湾区绿色交通<br>精英培养计划</h1>
+        <p class="subtitle">借助港深创新走廊，面向新能源与智能交通，打造具备国际视野与工程实战能力的新一代技术人才。</p>
+        <ul class="bullets">
+          <li><i class="dot"></i><span>双校联合 · 香港理工大学 × 北京理工大学</span></li>
+          <li><i class="dot"></i><span>写实科技广告风 · 绿+玫红视觉体系</span></li>
+          <li><i class="dot"></i><span>全程自动讲解 + 自动翻页播放</span></li>
+        </ul>
+      </div>
+      <div class="right">
+        <div>
+          <p class="big">3+1</p>
+          <p class="mini">DUAL-UNIVERSITY PROGRAM</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="left">
+        <div class="badge">UNIVERSITY PROFILE</div>
+        <h1>香港理工大学<br>北京理工大学</h1>
+        <p class="subtitle">两所顶尖院校共同构建跨区域协同培养体系：香港理工大学提供国际化工程基础，北京理工大学强化国家战略导向的汽车工程能力。</p>
+        <ul class="bullets">
+          <li><i class="dot"></i><span>PolyU：QS世界大学排名 #54</span></li>
+          <li><i class="dot"></i><span>BIT：汽车工程 A+，国家级科研平台</span></li>
+          <li><i class="dot"></i><span>双导师机制，学术与产业联合指导</span></li>
+        </ul>
+      </div>
+      <div class="right">
+        <div class="stats">
+          <div class="card"><b>#54</b><span>QS 世界大学排名</span></div>
+          <div class="card pink"><b>A+</b><span>汽车工程学科</span></div>
+          <div class="card"><b>IMechE</b><span>三重认证体系</span></div>
+          <div class="card pink"><b>985/211</b><span>双一流建设高校</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="left">
+        <div class="badge">TRAINING MODEL</div>
+        <h1>创新 3+1 培养模式</h1>
+        <p class="subtitle">前三年在香港理工大学完成国际课程与工程能力训练，最后一年进入北理工深圳汽车研究院开展核心技术实训与项目攻关。</p>
+        <ul class="bullets">
+          <li><i class="dot"></i><span>3年：国际课程 + 工程基础 + 英语能力</span></li>
+          <li><i class="dot"></i><span>1年：深圳研究院沉浸式实践</span></li>
+          <li><i class="dot"></i><span>学术研究与产业应用闭环衔接</span></li>
+        </ul>
+      </div>
+      <div class="right">
+        <div>
+          <p class="big">3<span style="color:#fff">+</span>1</p>
+          <p class="mini">HONG KONG · SHENZHEN</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="left">
+        <div class="badge">CURRICULUM & LAB</div>
+        <h1>课程模块与实训平台</h1>
+        <p class="subtitle">聚焦绿色交通关键技术，围绕“理论—仿真—实验—产业”开展系统化训练，提升学生解决复杂工程问题的能力。</p>
+        <ul class="bullets">
+          <li><i class="dot"></i><span>电动汽车系统、智能驾驶、车路云协同</span></li>
+          <li><i class="dot"></i><span>动力电池与能量管理、工业物联网、AI算法</span></li>
+          <li><i class="dot"></i><span>国家级实验室 + 真实产业课题</span></li>
+        </ul>
+      </div>
+      <div class="right">
+        <div class="stats">
+          <div class="card"><b>50+</b><span>年均孵化成果</span></div>
+          <div class="card pink"><b>8亿+</b><span>平台投入规模</span></div>
+          <div class="card"><b>国家级</b><span>科研与实验平台</span></div>
+          <div class="card pink"><b>实战化</b><span>企业联合课题</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="left">
+        <div class="badge">CAREER OUTLOOK</div>
+        <h1>就业前景与行业机会</h1>
+        <p class="subtitle">项目打通人才培养与产业需求链路，链接头部企业与新质生产力赛道，为毕业生提供高成长路径与高价值岗位机会。</p>
+        <ul class="bullets">
+          <li><i class="dot"></i><span>合作企业：比亚迪、小鹏、广汽、腾讯、大疆等</span></li>
+          <li><i class="dot"></i><span>2025年行业人才需求120万，缺口103万+</span></li>
+          <li><i class="dot"></i><span>毕业生平均年薪预期 30万+</span></li>
+        </ul>
+      </div>
+      <div class="right">
+        <div class="stats">
+          <div class="card"><b>120万</b><span>人才需求</span></div>
+          <div class="card pink"><b>103万+</b><span>人才缺口</span></div>
+          <div class="card"><b>30万+</b><span>平均年薪预期</span></div>
+          <div class="card pink"><b>TOP企业</b><span>定向就业通道</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="left">
+        <div class="badge">ADMISSION INFO</div>
+        <h1>学位认证与报名节点</h1>
+        <p class="subtitle">完成学业后可获香港学士学位并通过中留服认证。招生名额有限，建议尽早完成报名与综合能力评估。</p>
+        <ul class="bullets">
+          <li><i class="dot"></i><span>对象：应往届高中毕业生 / 同等学力 / 国际生</span></li>
+          <li><i class="dot"></i><span>门槛：一本线 + 英语要求 + 全英面试</span></li>
+          <li><i class="dot"></i><span>报名截止：7月31日；9月入学</span></li>
+        </ul>
+      </div>
+      <div class="right">
+        <div>
+          <p class="big" style="font-size:4.7vw">NOW<br>ENROLLING</p>
+          <p class="mini">香港学士学位 · 中留服认证</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="subtitle-track" id="subtitleLine"></div>
+
+    <div class="controls">
+      <button class="btn" id="prevBtn">上一页</button>
+      <button class="btn" id="playBtn">暂停</button>
+      <button class="btn" id="nextBtn">下一页</button>
+      <button class="btn" id="voiceBtn">旁白：开</button>
+      <div class="timeline"><span id="progress"></span></div>
+    </div>
+
+    <div class="autoplay-lock" id="autoplayLock">
+      <div class="lock-inner">
+        <p>浏览器限制了自动语音播放，点击继续自动讲解</p>
+        <button id="unlockBtn">开始播放</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const query = new URLSearchParams(window.location.search);
+    const forceMute = query.get('mute') === '1';
+
+    const slides = [...document.querySelectorAll('.slide')];
+    const caption = document.getElementById('caption');
+    const progress = document.getElementById('progress');
+    const subtitleLine = document.getElementById('subtitleLine');
+    const playBtn = document.getElementById('playBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const voiceBtn = document.getElementById('voiceBtn');
+    const lock = document.getElementById('autoplayLock');
+    const unlockBtn = document.getElementById('unlockBtn');
+
+    const narration = [
+      '在科技与国际的双重赋能下，大湾区绿色交通精英培养计划正式启航。',
+      '项目由香港理工大学与北京理工大学联合打造，形成双校协同培养的新范式。',
+      '采用创新三加一模式，前三年在香港理工大学，最后一年进入北理工深圳汽车研究院实训。',
+      '课程覆盖电动汽车、智能驾驶、车路云协同与能源系统，依托国家级平台开展项目实践。',
+      '新能源人才缺口持续扩大，项目对接头部企业资源，毕业生具备高成长就业竞争力。',
+      '完成学业后可获香港学士学位并通过中留服认证，欢迎加入绿色交通新未来。'
+    ];
+
+    const fallbackDurations = [7104, 7776, 9144, 9000, 8328, 7776];
+    const audioTracks = narration.map((_, i) => {
+      const a = new Audio(`audio/slide${i + 1}.mp3`);
+      a.preload = 'auto';
+      return a;
+    });
+
+    let index = 0;
+    let playing = true;
+    let voiceOn = !forceMute;
+    let timer = null;
+    let tick = null;
+    let currentAudio = null;
+
+    if (forceMute) voiceBtn.textContent = '旁白：关';
+
+    function toSafeChar(ch) {
+      if (ch === '&') return '&amp;';
+      if (ch === '<') return '&lt;';
+      if (ch === '>') return '&gt;';
+      if (ch === '"') return '&quot;';
+      if (ch === "'") return '&#39;';
+      return ch;
+    }
+
+    function stopAudio(reset = true) {
+      if (!currentAudio) return;
+      currentAudio.onended = null;
+      currentAudio.pause();
+      if (reset) currentAudio.currentTime = 0;
+      currentAudio = null;
+    }
+
+    function renderSubtitle(i, ratio = 0) {
+      const text = narration[i] || '';
+      const chars = [...text];
+      const reveal = Math.max(1, Math.min(chars.length, Math.floor(chars.length * ratio)));
+      subtitleLine.innerHTML = chars
+        .map((ch, idx) => `<span class="${idx < reveal ? 'on' : ''}">${toSafeChar(ch)}</span>`)
+        .join('');
+    }
+
+    function runTimer() {
+      clearTimeout(timer);
+      clearInterval(tick);
+      if (!playing) return;
+
+      const fallback = fallbackDurations[index] || 8000;
+      const startAt = Date.now();
+      let useAudioClock = false;
+
+      stopAudio();
+      if (voiceOn) {
+        currentAudio = audioTracks[index];
+        currentAudio.currentTime = 0;
+        currentAudio.onended = () => playing && next();
+        currentAudio.play().then(() => {
+          lock.classList.remove('show');
+          useAudioClock = true;
+        }).catch(() => {
+          lock.classList.add('show');
+          timer = setTimeout(() => playing && next(), fallback);
+        });
+      } else {
+        timer = setTimeout(() => playing && next(), fallback);
+      }
+
+      tick = setInterval(() => {
+        let ratio = 0;
+        if (useAudioClock && currentAudio && currentAudio.duration > 0) {
+          ratio = Math.min(1, currentAudio.currentTime / currentAudio.duration);
+        } else {
+          ratio = Math.min(1, (Date.now() - startAt) / fallback);
+        }
+        progress.style.width = `${ratio * 100}%`;
+        renderSubtitle(index, ratio);
+      }, 50);
+    }
+
+    function show(i) {
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+      caption.textContent = `${String(i + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+      progress.style.width = '0%';
+      renderSubtitle(i, 0);
+      runTimer();
+    }
+
+    function next() {
+      index = (index + 1) % slides.length;
+      show(index);
+    }
+
+    function prev() {
+      index = (index - 1 + slides.length) % slides.length;
+      show(index);
+    }
+
+    function togglePlay() {
+      playing = !playing;
+      playBtn.textContent = playing ? '暂停' : '播放';
+      if (playing) {
+        runTimer();
+      } else {
+        clearTimeout(timer);
+        clearInterval(tick);
+        stopAudio(false);
+        renderSubtitle(index, 1);
+      }
+    }
+
+    function toggleVoice() {
+      if (forceMute) return;
+      voiceOn = !voiceOn;
+      voiceBtn.textContent = `旁白：${voiceOn ? '开' : '关'}`;
+      show(index);
+    }
+
+    prevBtn.onclick = prev;
+    nextBtn.onclick = next;
+    playBtn.onclick = togglePlay;
+    voiceBtn.onclick = toggleVoice;
+
+    unlockBtn.onclick = () => {
+      lock.classList.remove('show');
+      if (voiceOn) show(index);
+    };
+
+    const startupDelay = query.get('instant') === '1' ? 0 : 650;
+    setTimeout(() => show(index), startupDelay);
+  </script>
+</body>
+</html>
